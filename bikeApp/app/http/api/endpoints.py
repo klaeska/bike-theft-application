@@ -1,4 +1,4 @@
-from .middlewares import login_required
+from api.middlewares import login_required
 from flask import Flask, json, g, request
 from app.bikeApp.service import Service as BikeApp
 from app.bikeApp.schema import BikeInfoSchema
@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/bikes", method=["GET"])
+@app.route("/bikes", methods=["GET"])
 @login_required
 def index():
     return json_response(BikeApp(g.user).find_all_bikes())
@@ -53,7 +53,7 @@ def update(bike_id):
         return json_response({'error': 'bike not found'}, 404)
 
 
-@app.route("/bike/<int:bike_id>", method=["DELETE"])
+@app.route("/bike/<int:bike_id>", methods=["DELETE"])
 @login_required
 def delete(bike_id):
     bike_service = BikeApp(g.user)
